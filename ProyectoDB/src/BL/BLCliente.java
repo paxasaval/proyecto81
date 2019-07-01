@@ -23,7 +23,33 @@ public class BLCliente {
     BLUsuario ObjBLusuario = new BLUsuario();
     public static ArrayList<Cliente> ArrayCliente = new ArrayList<Cliente>();
 
-   public ArrayList<Cliente> ConsultarClientesDB() throws ClassNotFoundException, SQLException {
+    public ArrayList<String> ConsultarClientesDBCedula() throws SQLException, ClassNotFoundException {
+        ResultSet rs;
+        rs = ObjDatCliente.ConsultarClientes();
+        ArrayList<String> ArrayCedulas = new ArrayList<String>();
+        ResultSetMetaData rm = rs.getMetaData();
+        //Recupera los campos de la tabla
+        int columnCount = rm.getColumnCount();
+        ArrayList<String> columns = new ArrayList<>();
+        for (int i = 1; i <= columnCount; i++) {
+            String columnName = rm.getColumnName(i);
+            columns.add(columnName);
+        }
+        //
+        while (rs.next()) {
+            String cedula = "";
+            for (String columnName : columns) {
+                String value = rs.getString(columnName);
+                if (columnName.equals("Cedula"))
+                   cedula=value;
+            }
+          ArrayCedulas.add(cedula);
+        }
+      return ArrayCedulas; 
+    }
+    
+
+    public ArrayList<Cliente> ConsultarClientesDB() throws ClassNotFoundException, SQLException {
         ResultSet rs;
         rs = ObjDatCliente.ConsultarClientes();
         ArrayList<Usuario> ArrayUsuarios = new ArrayList<Usuario>();
@@ -38,36 +64,47 @@ public class BLCliente {
         //Envia los datos al objeto
         while (rs.next()) {
             Cliente e = new Cliente();
-            for (String columnName : columns){
+            for (String columnName : columns) {
                 String value = rs.getString(columnName);
-                if (columnName.equals("idClie"))
+                if (columnName.equals("idClie")) {
                     e.setIdClie(Integer.valueOf(value));
-                if (columnName.equals("Cedula")){
+                }
+                if (columnName.equals("Cedula")) {
                     e.setCedula(value);
                     ArrayUsuarios.clear();
                     ArrayUsuarios = BLUsuario.BuscarUsuarioCedula(e.getCedula());
-                    for (Usuario objUsu : ArrayUsuarios){
+                    for (Usuario objUsu : ArrayUsuarios) {
                         e.AgregarUsuario(objUsu.getIdUsua(), objUsu.getCedulaAcc(), objUsu.getContraseñaAcc());
                     }
-                }      
-                if (columnName.equals("PrimApellido"))
+                }
+                if (columnName.equals("PrimApellido")) {
                     e.setPrimApellido(value);
-                if (columnName.equals("SegApellido"))
+                }
+                if (columnName.equals("SegApellido")) {
                     e.setSegApellido(value);
-                if (columnName.equals("PrimNombre"))
+                }
+                if (columnName.equals("PrimNombre")) {
                     e.setPrimNombre(value);
-                if (columnName.equals("SegNombre"))
+                }
+                if (columnName.equals("SegNombre")) {
                     e.setSegNombre(value);
-                if (columnName.equals("Telefono"))
+                }
+                if (columnName.equals("Telefono")) {
                     e.setTelefono(value);
-                if (columnName.equals("Direccion"))
+                }
+                if (columnName.equals("Direccion")) {
                     e.setDireccion(value);
-                if (columnName.equals("eMail"))
+                }
+                if (columnName.equals("eMail")) {
                     e.seteMail(value);
-                
+                }
+                if (columnName.equals("Contraseña")) {
+                    e.setContraseña(value);
+                }
+
             }
             ArrayCliente.add(e);
-        }
+        }   
         return ArrayCliente;
     }
 

@@ -5,8 +5,10 @@
  */
 package AGUI;
 
+import BL.BLCliente;
 import BL.BLPlato;
 import BL.BLRestaurante;
+import Clases2.Cliente;
 import Clases2.Restaurante;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,8 +22,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Pantalla_Principal extends javax.swing.JFrame {
     ArrayList<Restaurante> ArrayRestaurante = new ArrayList<Restaurante>();
+    ArrayList<Cliente> ArrayClientes = new ArrayList<Cliente>();
+    ArrayList<String> ArrayCedulas = new ArrayList<String>();
     BLRestaurante objBLrestaurante = new BLRestaurante();
     BLPlato objBLplato = new BLPlato();
+    BLCliente objBLcliente = new BLCliente();
     
 
     /**
@@ -87,6 +92,11 @@ public class Pantalla_Principal extends javax.swing.JFrame {
         jPanel2.add(jTextFieldContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, 260, -1));
 
         jButtonIngresar.setText("INGRESAR");
+        jButtonIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIngresarActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButtonIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, -1, -1));
 
         jLabel5.setText("¿AÚN NO ESTAS REGISTRADO?");
@@ -149,7 +159,7 @@ public class Pantalla_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -182,6 +192,42 @@ public class Pantalla_Principal extends javax.swing.JFrame {
         Pantalla_Registro_Cliente c = new Pantalla_Registro_Cliente();
         c.setVisible(true);
     }//GEN-LAST:event_jButtonRegistrarseActionPerformed
+
+    private void jButtonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIngresarActionPerformed
+        try {
+            ArrayClientes = objBLcliente.ConsultarClientesDB();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ArrayCedulas = objBLcliente.ConsultarClientesDBCedula();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (ArrayCedulas.contains(this.jTextFieldCedula.getText())){
+            int i =ArrayCedulas.indexOf(this.jTextFieldCedula.getText());
+            System.out.println(i);
+            if (ArrayClientes.get(i).getContraseña().equals(this.jTextFieldContraseña.getText())){
+                dispose();
+                Pantalla_Pedidos c;
+                try {
+                    c = new Pantalla_Pedidos();
+                    c.setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        }
+        
+    }//GEN-LAST:event_jButtonIngresarActionPerformed
 
     /**
      * @param args the command line arguments
