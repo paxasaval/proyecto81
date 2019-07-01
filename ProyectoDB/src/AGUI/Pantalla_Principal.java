@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -211,7 +213,6 @@ public class Pantalla_Principal extends javax.swing.JFrame {
         
         if (ArrayCedulas.contains(this.jTextFieldCedula.getText())){
             int i =ArrayCedulas.indexOf(this.jTextFieldCedula.getText());
-            System.out.println(i);
             if (ArrayClientes.get(i).getContraseña().equals(this.jTextFieldContraseña.getText())){
                 dispose();
                 Pantalla_Pedidos c;
@@ -224,7 +225,11 @@ public class Pantalla_Principal extends javax.swing.JFrame {
                     Logger.getLogger(Pantalla_Principal.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
+            }else{
+                JOptionPane.showMessageDialog(null, "Contraseña Incorrecta");
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "El usuario no se encuentra registrado");
         }
         
     }//GEN-LAST:event_jButtonIngresarActionPerformed
