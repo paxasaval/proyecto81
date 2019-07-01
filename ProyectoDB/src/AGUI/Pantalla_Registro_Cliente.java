@@ -195,9 +195,9 @@ public class Pantalla_Registro_Cliente extends javax.swing.JFrame {
                     this.jTextFieldSEGUNDONOMBRE.getText(), this.jTextFieldTELEFONO.getText(),
                     this.jTextFieldDIRECCION.getText(), this.jTextFieldCORREO.getText(), this.jTextFieldCONTRASEÑA.getText());
             objBLcliente.InsertarClienteDB(objClie);
-//            objUsua = new Usuario(0, this.jTextFieldCEDULA.getText(), this.jTextFieldCONTRASEÑA.getText());
-            objClie.AgregarUsuario(0, this.jTextFieldCEDULA.getText(), this.jTextFieldCONTRASEÑA.getText());
-           
+//          objUsua = new Usuario(0, this.jTextFieldCEDULA.getText(), this.jTextFieldCONTRASEÑA.getText());
+            objClie = objBLcliente.ConsultarClientesDB().get(objBLcliente.ConsultarClientesDB().size()-1);
+            objClie.AgregarUsuario(0, this.jTextFieldCEDULA.getText(), this.jTextFieldCONTRASEÑA.getText());      
             objBLusuario.InsertarUsuarioDB2(objClie);
         } catch (SQLException ex) {
             Logger.getLogger(Pantalla_Registro_Cliente.class.getName()).log(Level.SEVERE, null, ex);

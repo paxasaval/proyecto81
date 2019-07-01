@@ -23,7 +23,7 @@ public class DATUsuario {
 
     public static ResultSet ConsultarClienteCedula(String Cedula) throws ClassNotFoundException, SQLException {
         Statement st = c.AbrirConexion().createStatement();
-        String Sentencia = "select usuario.idUsua from cliente2, usuario "
+        String Sentencia = "select usuario.idUsua from proyecto81.cliente2, proyecto81.usuario "
                 + "where cliente2.idClie = usuario.idClie and cliente2.cedula = " + Cedula + " order by 1";
         ResultSet rs = st.executeQuery(Sentencia);
         return rs;
